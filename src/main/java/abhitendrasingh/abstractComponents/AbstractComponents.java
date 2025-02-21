@@ -1,4 +1,4 @@
-package abhitendra.singh.abstractComponents;
+package abhitendrasingh.abstractComponents;
 
 import java.time.Duration;
 
@@ -11,7 +11,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import abhitendra.singh.pageObjects.CartPage;
+import abhitendrasingh.pageObjects.CartPage;
+import abhitendrasingh.pageObjects.OrdersPage;
 
 public class AbstractComponents {
 	
@@ -24,10 +25,18 @@ public class AbstractComponents {
 	
 	@FindBy(css = "[routerlink*='cart']")
 	WebElement cartBtn;
+	
+	@FindBy(css = "[routerlink='/dashboard/myorders']")
+	WebElement ordersBtn;
 
 	public void waitForElementToAppear(By findByElement) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(findByElement));
+	}
+	
+	public void waitForElementToAppear(WebElement findByElement) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		wait.until(ExpectedConditions.visibilityOf(findByElement));
 	}
 	
 	public void waitForElementToDisappear(By findByElement) {
@@ -44,6 +53,12 @@ public class AbstractComponents {
 		cartBtn.click();
 		CartPage checkout = new CartPage(driver);
 		return checkout;
+	}
+	
+	public OrdersPage goToOrdersPage() {
+		ordersBtn.click();
+		OrdersPage ordersPage = new OrdersPage(driver);
+		return ordersPage;
 	}
 
 }

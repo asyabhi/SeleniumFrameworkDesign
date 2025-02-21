@@ -1,4 +1,4 @@
-package abhitendra.singh.SeleniumFrameworkDesign;
+package abhitendrasingh.tests;
 
 import java.time.Duration;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import abhitendra.singh.pageObjects.LandingPage;
+import abhitendrasingh.pageObjects.LandingPage;
 
 public class StandAloneTest {
 

@@ -1,4 +1,4 @@
-package abhitendra.singh.pageObjects;
+package abhitendrasingh.pageObjects;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import abhitendra.singh.abstractComponents.AbstractComponents;
+import abhitendrasingh.abstractComponents.AbstractComponents;
 
 public class CartPage extends AbstractComponents{
 	
