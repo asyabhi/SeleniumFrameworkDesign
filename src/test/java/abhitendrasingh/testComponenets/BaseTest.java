@@ -9,10 +9,13 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.io.FileHandler;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -46,29 +49,49 @@ public class BaseTest {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		return driver;
 	}
-	
+
 	public List<HashMap<String, String>> getJsonDataToMap(String filePath) throws IOException {
 		// Read json to string
 		String jsonContent = FileUtils.readFileToString(new File(filePath));
-		
+
 		// String to HashMap with Jackson Databind
 		ObjectMapper mapper = new ObjectMapper();
-		List<HashMap<String, String>> data = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>(){
-		});
-		
+		List<HashMap<String, String>> data = mapper.readValue(jsonContent,
+				new TypeReference<List<HashMap<String, String>>>() {
+				});
+
 		return data;
 	}
-	
-	@BeforeMethod
+
+	public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
+
+		String screenshotPath = null;
+
+		try {
+			// take screenshot and save it in a file
+			File sourceFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+			// copy the file to the required path
+			File destinationFile = new File(System.getProperty("user.dir") + "\\reports\\" + testCaseName + ".png");
+			FileHandler.copy(sourceFile, destinationFile);
+			String[] relativePath = destinationFile.toString().split("reports");
+			screenshotPath = ".\\" + relativePath[1];
+		} catch (Exception e) {
+			System.out.println("Failure to take screenshot " + e);
+		}
+		return screenshotPath;
+	}
+
+	@BeforeMethod(alwaysRun = true)
 	public LandingPage launchApplication() throws IOException {
-		
+
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);
 		landingPage.goTo();
 		return landingPage;
 	}
-	
-	@AfterMethod
+
+	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		driver.quit();
 	}

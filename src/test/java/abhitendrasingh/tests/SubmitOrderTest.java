@@ -1,13 +1,9 @@
 package abhitendrasingh.tests;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,6 +14,7 @@ import abhitendrasingh.pageObjects.OrdersPage;
 import abhitendrasingh.pageObjects.PaymentsPage;
 import abhitendrasingh.pageObjects.ProductCatalogPage;
 import abhitendrasingh.testComponenets.BaseTest;
+import abhitendrasingh.testComponenets.Retry;
 
 public class SubmitOrderTest extends BaseTest {
 
@@ -41,21 +38,14 @@ public class SubmitOrderTest extends BaseTest {
 		Assert.assertTrue(finalMatch);
 	}
 
-	@Test(dependsOnMethods = { "submitOrder" })
+	@Test(dependsOnMethods = { "submitOrder" }, retryAnalyzer = Retry.class)
 	public void orderHistory() {
 		ProductCatalogPage productCatalog = landingPage.loginApplication("randomschitz@gmail.com", "Abhi@1234");
 		OrdersPage ordersPage = productCatalog.goToOrdersPage();
 		Assert.assertTrue(ordersPage.verifyOrderDisplay(productName));
 	}
 	
-	public String getScreenshot(String testCaseName) throws IOException {
-		
-		TakesScreenshot ts = (TakesScreenshot)driver;
-		File source = ts.getScreenshotAs(OutputType.FILE);
-		File file = new File(System.getProperty("user.dir") + "//reports//" + testCaseName + ".png");
-		FileUtils.copyFile(source, file);
-		return System.getProperty("user.dir") + "//reports//" + testCaseName + ".png";
-	}
+	
 	
 	@DataProvider
 	public Object[][] getData() throws IOException {

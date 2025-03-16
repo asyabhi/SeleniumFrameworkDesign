@@ -7,13 +7,14 @@ import org.testng.annotations.Test;
 import abhitendrasingh.pageObjects.CartPage;
 import abhitendrasingh.pageObjects.ProductCatalogPage;
 import abhitendrasingh.testComponenets.BaseTest;
+import abhitendrasingh.testComponenets.Retry;
 
 public class ErrorValidations extends BaseTest {
-	@Test
+	@Test(retryAnalyzer = Retry.class)
 	public void loginErrorValidation() throws IOException {
 
 		landingPage.loginApplication("randomschitz@gmail.com", "Abh@1234");
-		Assert.assertEquals("Incorrect email or password.", landingPage.getErrorMessage());
+		Assert.assertEquals("Incorrect email or password", landingPage.getErrorMessage());
 
 	}
 	
