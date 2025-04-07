@@ -52,7 +52,7 @@ public class SubmitOrderTest extends BaseTest {
 		
 		List<HashMap<String, String>> data = getJsonDataToMap(System.getProperty("user.dir") + "//src//test//java//abhitendrasingh//data//purchaseOrder.json");
 
-		return new Object[][] { { data.get(0) }, { data.get(1) } };
+		return  new Object[][] { { data.get(0) }, { data.get(1) } };
 
 //		HashMap<String, String> map = new HashMap<String, String>();
 //		map.put("email", "randomschitz@gmail.com");
